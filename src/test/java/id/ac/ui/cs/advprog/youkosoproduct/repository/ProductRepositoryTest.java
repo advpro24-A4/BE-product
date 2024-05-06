@@ -55,11 +55,11 @@ public class ProductRepositoryTest {
         productRepository.createProduct(product1);
 
         Product product2 = new Product();
-        product2.setProductName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop");
-        product2.setProductPrice(2249000);
-        product2.setProductStock(5);
-        product2.setProductDiscount(20);
-        product2.setProductDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.");
+        product2.setProductName("Nendoroid Itoshi Rin - Blue Lock");
+        product2.setProductPrice(680000);
+        product2.setProductStock(10);
+        product2.setProductDiscount(15);
+        product2.setProductDescription("Crushing Itoshi Sae is everything to me in soccer.");
         productRepository.createProduct(product2);
 
         Iterator<Product> productIterator = productRepository.findAllProduct();
