@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.youkosoproduct.service;
 
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +11,11 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product createProduct(Product product) {
