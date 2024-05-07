@@ -4,6 +4,9 @@ import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -14,26 +17,31 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        return null;
+        productRepository.createProduct(product);
+        return product;
     }
 
     @Override
     public Product updateProduct(String productId, Product updatedProduct) {
-        return null;
+        productRepository.updateProduct(productId, updatedProduct);
+        return updatedProduct;
     }
 
     @Override
     public List<Product> findAllProduct() {
-        return null;
+        Iterator<Product> productIterator = productRepository.findAllProduct();
+        List<Product> allProduct = new ArrayList<>();
+        productIterator.forEachRemaining(allProduct::add);
+        return allProduct;
     }
 
     @Override
     public Product findProductById(String productId) {
-        return null;
+        return productRepository.findProductById(productId);
     }
 
     @Override
     public Product deleteProduct(String productId) {
-        return null;
+        return productRepository.deleteProduct(productId);
     }
 }
