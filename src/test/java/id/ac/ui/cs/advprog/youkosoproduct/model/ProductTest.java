@@ -9,13 +9,14 @@ public class ProductTest {
 
     @BeforeEach
     void SetUp() {
-        product = new Product();
-        this.product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        this.product.setProductName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop");
-        this.product.setProductPrice(2249000);
-        this.product.setProductStock(5);
-        this.product.setProductDiscount(20);
-        this.product.setProductDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.");
+        this.product = new ProductBuilder()
+                .productId("eb558e9f-1c39-460e-8860-71af6af63bd6")
+                .productName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop")
+                .productPrice(2249000)
+                .productStock(5)
+                .productDiscount(20)
+                .productDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.")
+                .build();
     }
 
     @Test
