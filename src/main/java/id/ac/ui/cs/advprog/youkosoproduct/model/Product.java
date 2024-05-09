@@ -28,4 +28,7 @@ public class Product {
 
     @Column(length = 512, nullable = false, name = "product_description")
     private String productDescription;
+
+    @Column(name = "product_image", nullable = false)
+    private String productImage;
 }
