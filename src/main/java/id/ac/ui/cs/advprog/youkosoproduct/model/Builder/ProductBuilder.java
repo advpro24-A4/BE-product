@@ -10,6 +10,8 @@ public class ProductBuilder {
     private int productDiscount = 0;
     private String productDescription;
 
+    private String productImage;
+
     public ProductBuilder productId(int productId) {
         this.productId = productId;
         return this;
@@ -40,6 +42,11 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder productImage(String productImage) {
+        this.productImage = productImage;
+        return this;
+    }
+
     public Product build() {
         Product product = new Product();
         product.setProductId(this.productId);
@@ -48,6 +55,7 @@ public class ProductBuilder {
         product.setProductStock(this.productStock);
         product.setProductDiscount(this.productDiscount);
         product.setProductDescription(this.productDescription);
+        product.setProductImage(this.productImage);
         return product;
     }
 
