@@ -11,7 +11,7 @@ public class ProductTest {
     @BeforeEach
     void SetUp() {
         this.product = new ProductBuilder()
-                .productId("eb558e9f-1c39-460e-8860-71af6af63bd6")
+                .productId(12345)
                 .productName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop")
                 .productPrice(2249000)
                 .productStock(5)
@@ -22,7 +22,7 @@ public class ProductTest {
 
     @Test
     void testGetProductId() {
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
+        assertEquals(12345, this.product.getProductId());
     }
 
     @Test

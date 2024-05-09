@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 public class Product {
     @Id
-    private String ProductId;
+    private int ProductId;
     private String ProductName;
     private int ProductPrice;
     private int ProductStock;

@@ -3,14 +3,14 @@ package id.ac.ui.cs.advprog.youkosoproduct.model.Builder;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 
 public class ProductBuilder {
-    private String productId;
+    private int productId;
     private String productName;
     private int productPrice;
     private int productStock = 0;
     private int productDiscount = 0;
     private String productDescription;
 
-    public ProductBuilder productId(String productId) {
+    public ProductBuilder productId(int productId) {
         this.productId = productId;
         return this;
     }
