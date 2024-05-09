@@ -33,6 +33,7 @@ public class ProductRepositoryTest {
                 .productStock(5)
                 .productDiscount(20)
                 .productDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.")
+                .productImage("/images/image11.jpg")
                 .build();
     }
     @Test
@@ -64,7 +65,7 @@ public class ProductRepositoryTest {
 
     @Test
     void testGetProduct() {
-        Integer productId = 49;
+        Integer productId = 100;
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         assertThat(optionalProduct).isPresent();
