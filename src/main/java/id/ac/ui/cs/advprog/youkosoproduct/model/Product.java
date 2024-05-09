@@ -34,7 +34,4 @@ public class Product {
 
     @Column(name = "product_image", nullable = false)
     private String productImage;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductImage> images = new HashSet<>();
 }

@@ -40,7 +40,6 @@ public class ProductBuilder {
         return this;
     }
 
-
     public Product build() {
         Product product = new Product();
         product.setProductId(this.productId);
@@ -51,6 +50,8 @@ public class ProductBuilder {
         product.setProductDescription(this.productDescription);
         return product;
     }
+
+
 }
 
 

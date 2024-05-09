@@ -1,8 +1,7 @@
 package id.ac.ui.cs.advprog.youkosoproduct.repository;
 
-import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.ProductBuilder;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -23,20 +22,15 @@ public class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-    Product product;
-
-    @BeforeEach
-    void setUp() {
-        this.product = new ProductBuilder()
-                .productName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop")
-                .productPrice(2249000)
-                .productStock(5)
-                .productDiscount(20)
-                .productDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.")
-                .build();
-    }
     @Test
     void testCreateUpdateProduct() {
+        Product product = new Product();
+        product.setProductName("Marvel Bishoujo Figure 1/7 Hawkeye / Kate Bishop");
+        product.setProductPrice(2249000);
+        product.setProductStock(5);
+        product.setProductDiscount(20);
+        product.setProductDescription("Am I the next Hawkeye!? The young bow-master, Kate Bishop, makes her debut.");
+
         Product createdProduct = productRepository.save(product);
 
         assertNotNull(createdProduct);
