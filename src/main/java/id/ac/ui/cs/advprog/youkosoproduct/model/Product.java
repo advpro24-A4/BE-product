@@ -34,4 +34,11 @@ public class Product {
 
     @Column(name = "product_image", nullable = false)
     private String productImage;
+
+    public Product(int productId) {
+        this.productId = productId;
+    }
+
+    public Product() {
+    }
 }

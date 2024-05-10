@@ -48,7 +48,7 @@ public class ProductBuilder {
     }
 
     public Product build() {
-        Product product = new Product();
+        Product product = new Product(99);
         product.setProductId(this.productId);
         product.setProductName(this.productName);
         product.setProductPrice(this.productPrice);
