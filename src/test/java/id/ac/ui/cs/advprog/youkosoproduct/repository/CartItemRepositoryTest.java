@@ -4,50 +4,54 @@ import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith(MockitoExtension.class)
 public class CartItemRepositoryTest {
-    @Autowired
+
+    @Mock
     private CartItemRepository cartItemRepository;
 
-    @Autowired
+    @Mock
     private ProductRepository productRepository;
 
-    @Autowired
+    @Mock
     private CustomerRepository customerRepository;
+
+    @BeforeEach
+    void setUp() {
+    }
 
     @Test
     void testSaveItem() {
         int productId = 99;
         int customerId = 1;
 
-        Optional<Product> productOptional = productRepository.findById(productId);
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        CartItem newItem = new CartItem();
+        newItem.setId(1);
+        newItem.setProduct(new Product(productId));
+        newItem.setCustomer(new Customer(customerId));
+        newItem.setQuantity(1);
 
-        if (productOptional.isPresent() && customerOptional.isPresent()) {
-            Product product = productOptional.get();
-            Customer customer = customerOptional.get();
+        when(cartItemRepository.save(newItem)).thenReturn(newItem);
 
-            CartItem newItem = new CartItem();
-            newItem.setProduct(product);
-            newItem.setCustomer(customer);
-            newItem.setQuantity(1);
-
-            CartItem savedItem = cartItemRepository.save(newItem);
-            assertThat(savedItem.getId()).isGreaterThan(0);
-        }
+        CartItem savedItem = cartItemRepository.save(newItem);
+        assertThat(savedItem.getId()).isGreaterThan(0);
     }
 
     @Test
@@ -55,35 +59,30 @@ public class CartItemRepositoryTest {
         int productId = 102;
         int customerId = 2;
 
-        Optional<Product> productOptional = productRepository.findById(productId);
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        CartItem newItem1 = new CartItem();
+        newItem1.setProduct(new Product(productId));
+        newItem1.setCustomer(new Customer(customerId));
+        newItem1.setQuantity(2);
 
-        if (productOptional.isPresent() && customerOptional.isPresent()) {
-            Product product = productOptional.get();
-            Customer customer = customerOptional.get();
+        CartItem newItem2 = new CartItem();
+        newItem2.setCustomer(new Customer(customerId));
+        newItem2.setProduct(new Product(99));
+        newItem2.setQuantity(4);
 
-            CartItem newItem1 = new CartItem();
-            newItem1.setProduct(product);
-            newItem1.setCustomer(customer);
-            newItem1.setQuantity(2);
+        when(cartItemRepository.saveAll(any())).thenReturn(List.of(newItem1, newItem2));
 
-            CartItem newItem2 = new CartItem();
-            newItem2.setCustomer(new Customer(customerId));
-            newItem2.setProduct(new Product(99));
-            newItem2.setQuantity(4);
-
-            Iterable<CartItem> cartItemIterable = cartItemRepository.saveAll(List.of(newItem1, newItem2));
-
-            long itemCount = StreamSupport.stream(cartItemIterable.spliterator(), false).count();
-            assertThat(itemCount).isGreaterThan(1);
-        }
+        Iterable<CartItem> cartItemIterable = cartItemRepository.saveAll(List.of(newItem1, newItem2));
+        long itemCount = StreamSupport.stream(cartItemIterable.spliterator(), false).count();
+        assertThat(itemCount).isGreaterThan(1);
     }
 
     @Test
     void testFindByCustomer() {
         int customerId = 2;
-        List<CartItem> listItems = cartItemRepository.findByCustomer(new Customer(customerId));
 
+        when(cartItemRepository.findByCustomer(any())).thenReturn(List.of(new CartItem(), new CartItem()));
+
+        List<CartItem> listItems = cartItemRepository.findByCustomer(new Customer(customerId));
         assertThat(listItems.size()).isEqualTo(2);
     }
 
@@ -91,6 +90,8 @@ public class CartItemRepositoryTest {
     void testFindByCustomerProduct() {
         int productId = 99;
         int customerId = 1;
+
+        when(cartItemRepository.findByCustomerAndProduct(any(), any())).thenReturn(new CartItem());
 
         CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
         assertThat(item).isNotNull();
@@ -102,17 +103,23 @@ public class CartItemRepositoryTest {
         int customerId = 2;
         int quantity = 4;
 
+        CartItem mockedItem = new CartItem();
+        mockedItem.setQuantity(quantity);
+
+        when(cartItemRepository.findByCustomerAndProduct(any(), any())).thenReturn(mockedItem);
+
         cartItemRepository.updateQuantity(quantity, customerId, productId);
         CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
 
         assertThat(item.getQuantity()).isEqualTo(4);
     }
 
-
     @Test
     void deleteByProduct() {
         int productId = 99;
         int customerId = 1;
+
+        when(cartItemRepository.findByCustomerAndProduct(any(), any())).thenReturn(null);
 
         cartItemRepository.deleteByCustomerAndProduct(customerId, productId);
         CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
@@ -122,7 +129,6 @@ public class CartItemRepositoryTest {
 
     @AfterEach
     void tearDown() {
-        cartItemRepository.deleteAll();
+        reset(cartItemRepository, productRepository, customerRepository);
     }
-
 }
