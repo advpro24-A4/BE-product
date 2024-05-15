@@ -27,7 +27,6 @@ public class CartItemRepositoryTest {
     @Test
     void testSaveItem() {
         int productId = 99;
-
         Optional<Product> productOptional = productRepository.findById(productId);
 
         if (productOptional.isPresent()) {
