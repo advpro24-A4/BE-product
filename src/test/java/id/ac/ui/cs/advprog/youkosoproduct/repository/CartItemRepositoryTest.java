@@ -1,9 +1,9 @@
 package id.ac.ui.cs.advprog.youkosoproduct.repository;
 
+import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,6 +17,7 @@ import java.util.stream.StreamSupport;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CartItemRepositoryTest {
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -24,16 +25,24 @@ public class CartItemRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Test
     void testSaveItem() {
         int productId = 99;
-        Optional<Product> productOptional = productRepository.findById(productId);
+        int customerId = 1;
 
-        if (productOptional.isPresent()) {
+        Optional<Product> productOptional = productRepository.findById(productId);
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+
+        if (productOptional.isPresent() && customerOptional.isPresent()) {
             Product product = productOptional.get();
+            Customer customer = customerOptional.get();
 
             CartItem newItem = new CartItem();
             newItem.setProduct(product);
+            newItem.setCustomer(customer);
             newItem.setQuantity(1);
 
             CartItem savedItem = cartItemRepository.save(newItem);
@@ -44,17 +53,22 @@ public class CartItemRepositoryTest {
     @Test
     void testSaveMoreThanOneItem() {
         int productId = 102;
+        int customerId = 2;
 
         Optional<Product> productOptional = productRepository.findById(productId);
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
-        if (productOptional.isPresent()) {
+        if (productOptional.isPresent() && customerOptional.isPresent()) {
             Product product = productOptional.get();
+            Customer customer = customerOptional.get();
 
             CartItem newItem1 = new CartItem();
             newItem1.setProduct(product);
+            newItem1.setCustomer(customer);
             newItem1.setQuantity(2);
 
             CartItem newItem2 = new CartItem();
+            newItem2.setCustomer(new Customer(customerId));
             newItem2.setProduct(new Product(99));
             newItem2.setQuantity(4);
 
@@ -66,35 +80,49 @@ public class CartItemRepositoryTest {
     }
 
     @Test
-    void testFindProduct() {
-        int productId = 102;
+    void testFindByCustomer() {
+        int customerId = 2;
+        List<CartItem> listItems = cartItemRepository.findByCustomer(new Customer(customerId));
 
-        Optional<CartItem> optionalItem = cartItemRepository.findById(productId);
-        assertThat(optionalItem).isNotNull();
+        assertThat(listItems.size()).isEqualTo(2);
+    }
+
+    @Test
+    void testFindByCustomerProduct() {
+        int productId = 99;
+        int customerId = 1;
+
+        CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
+        assertThat(item).isNotNull();
     }
 
     @Test
     void testUpdateQuantity() {
         int productId = 102;
-        int quantity = 10;
+        int customerId = 2;
+        int quantity = 4;
 
-        cartItemRepository.updateQuantity(quantity, productId);
-        Optional<CartItem> optionalItem = cartItemRepository.findById(productId);
+        cartItemRepository.updateQuantity(quantity, customerId, productId);
+        CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
 
-        optionalItem.ifPresent(cartItem -> assertThat(cartItem.getQuantity()).isEqualTo(quantity));
+        assertThat(item.getQuantity()).isEqualTo(4);
     }
+
 
     @Test
     void deleteByProduct() {
         int productId = 99;
+        int customerId = 1;
 
-        cartItemRepository.deleteProduct(productId);
-        Optional<CartItem> optionalItem = cartItemRepository.findById(productId);
-        assertThat(optionalItem).isEmpty();
+        cartItemRepository.deleteByCustomerAndProduct(customerId, productId);
+        CartItem item = cartItemRepository.findByCustomerAndProduct(new Customer(customerId), new Product(productId));
+
+        assertThat(item).isNull();
     }
 
     @AfterEach
     void tearDown() {
         cartItemRepository.deleteAll();
     }
+
 }

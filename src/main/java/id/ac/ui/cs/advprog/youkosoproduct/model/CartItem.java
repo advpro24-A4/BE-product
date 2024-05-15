@@ -24,4 +24,7 @@ public class CartItem {
 
     private int quantity;
 
+    public CartItem() {
+    }
+
 }

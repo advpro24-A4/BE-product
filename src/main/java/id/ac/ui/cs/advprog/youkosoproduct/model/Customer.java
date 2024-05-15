@@ -24,4 +24,11 @@ public class Customer {
 
     @Column(name = "last_name", nullable = false, length = 45)
     private String lastName;
+
+    public Customer(int id) {
+        this.id = id;
+    }
+
+    public Customer() {
+    }
 }
