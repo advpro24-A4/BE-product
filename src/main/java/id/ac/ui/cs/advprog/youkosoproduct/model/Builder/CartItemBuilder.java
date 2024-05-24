@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.youkosoproduct.model.Builder;
 
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
-import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 
 public class CartItemBuilder {
     private int id;

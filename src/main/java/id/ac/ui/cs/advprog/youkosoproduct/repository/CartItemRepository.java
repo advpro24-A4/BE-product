@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.youkosoproduct.repository;
 
-import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

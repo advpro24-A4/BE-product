@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.youkosoproduct.service;
 
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
-import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.CartItemRepository;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.ProductRepository;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
