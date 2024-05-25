@@ -1,9 +1,11 @@
 package id.ac.ui.cs.advprog.youkosoproduct.service;
 
+import id.ac.ui.cs.advprog.youkosoproduct.dto.NotificationDTO;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.BadRequestException;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.*;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.CartItemBuilder;
+import id.ac.ui.cs.advprog.youkosoproduct.model.enumaration.NotificationType;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,16 @@ public class CartItemServiceImpl implements ICartItemService {
     private final IProductRepository productRepository;
     private final IOrderRepository orderRepository;
     private final IOrderItemRepository orderItemRepository;
+    private final KafkaService kafkaService;
 
     @Autowired
-    public CartItemServiceImpl(ICartItemRepository cartItemRepository, ICartRepository cartRepository, IProductRepository productRepository, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository) {
+    public CartItemServiceImpl(ICartItemRepository cartItemRepository, ICartRepository cartRepository, IProductRepository productRepository, IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, KafkaService kafkaService) {
         this.orderItemRepository = orderItemRepository;
         this.orderRepository = orderRepository;
         this.cartItemRepository = cartItemRepository;
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+        this.kafkaService = kafkaService;
     }
 
     @Override
@@ -114,7 +118,15 @@ public class CartItemServiceImpl implements ICartItemService {
             product.setProductStock(product.getProductStock() - cartItem.getQuantity());
             productRepository.save(product);
 
-            //TODO: send notification
+
+            if(product.getProductStock() <= 10){
+                NotificationDTO notificationDTO = new NotificationDTO();
+                notificationDTO.setMessage("Product " + product.getProductName() + " is running out of stock");
+                notificationDTO.setProductId(String.valueOf(product.getId()));
+                notificationDTO.setType(NotificationType.PRODUCT);
+                notificationDTO.setUserId(userId);
+                kafkaService.sendNotification(notificationDTO);
+            }
 
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
