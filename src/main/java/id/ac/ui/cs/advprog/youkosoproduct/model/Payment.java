@@ -1,12 +1,12 @@
 package id.ac.ui.cs.advprog.youkosoproduct.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,23 +25,27 @@ public class Payment {
     private String userId;
 
     @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice;
+    private long totalPrice;
 
     @Column(name = "payment_status", nullable = false)
     private String paymentStatus;
 
+    @Column(name = "payment_method", nullable = false)
+    private String paymentMethod;
+
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name = "paid_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime paidAt;
 
-    public Payment() {
-        // Default constructor required by JPA/Hibernate
-    }
+    public Payment() {}
 }

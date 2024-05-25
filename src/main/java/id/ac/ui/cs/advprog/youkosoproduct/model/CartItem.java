@@ -1,12 +1,14 @@
 package id.ac.ui.cs.advprog.youkosoproduct.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -30,6 +32,7 @@ public class CartItem {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id", nullable = false)
+    @JsonManagedReference
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -43,14 +46,12 @@ public class CartItem {
     private int quantity;
 
     @Column(name = "price", nullable = false)
-    private double price;
-
-
+    private int price;
 
     public CartItem() {}
 
     // Additional constructor for ease of use
-    public CartItem(Cart cart, Product product, String userId, int quantity, double price) {
+    public CartItem(Cart cart, Product product, String userId, int quantity, int price) {
         this.cart = cart;
         this.product = product;
         this.userId = userId;

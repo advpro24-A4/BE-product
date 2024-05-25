@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IOrderService {
     List<Order> getOrders(String userId);
-    Order getOrder(long id);
-    Order deleteOrder(long id);
+    Order getOrder(long id, String userId);
+    Order cancelOrder(long id, String userId);
+    Order finishOrder(long id, String userId);
 }
