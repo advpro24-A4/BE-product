@@ -49,7 +49,7 @@ public class ProductBuilder {
 
     public Product build() {
         Product product = new Product();
-        product.setProductId(this.productId);
+        product.setId(this.productId);
         product.setProductName(this.productName);
         product.setProductPrice(this.productPrice);
         product.setProductStock(this.productStock);

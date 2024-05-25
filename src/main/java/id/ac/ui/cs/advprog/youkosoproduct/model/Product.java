@@ -12,19 +12,19 @@ import lombok.Setter;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productId;
+    private int id;
 
     @Column(unique = true, length = 256, nullable = false, name = "product_name")
     private String productName;
 
-    @Column(name = "product_price")
+    @Column(name = "product_price", nullable = false)
     private int productPrice;
 
-    @Column(name = "product_stock")
+    @Column(name = "product_stock", nullable = false)
     private int productStock;
 
-    @Column(name = "product_discount")
-    private int productDiscount;
+    @Column(name = "product_discount", nullable = true)
+    private Integer productDiscount;
 
     @Column(length = 512, nullable = false, name = "product_description")
     private String productDescription;
@@ -32,8 +32,13 @@ public class Product {
     @Column(name = "product_image", nullable = false)
     private String productImage;
 
+
+    public int finalPrice(){
+        return this.productPrice - (this.productPrice * this.productDiscount / 100);
+    }
+
     public Product(int productId) {
-        this.productId = productId;
+        this.id = productId;
     }
 
     public Product() {

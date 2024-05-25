@@ -1,17 +1,24 @@
 package id.ac.ui.cs.advprog.youkosoproduct.model.Builder;
 
+import id.ac.ui.cs.advprog.youkosoproduct.model.Cart;
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Product;
-import id.ac.ui.cs.advprog.youkosoproduct.model.Customer;
 
 public class CartItemBuilder {
     private int id;
+    private Cart cart;
     private Product product;
-    private Customer customer;
+    private String userId;
     private int quantity;
+    private double price;
 
     public CartItemBuilder id(int id) {
         this.id = id;
+        return this;
+    }
+
+    public CartItemBuilder cart(Cart cart) {
+        this.cart = cart;
         return this;
     }
 
@@ -20,8 +27,8 @@ public class CartItemBuilder {
         return this;
     }
 
-    public CartItemBuilder customer(Customer customer) {
-        this.customer = customer;
+    public CartItemBuilder user(String userId) {
+        this.userId = userId;
         return this;
     }
 
@@ -30,12 +37,19 @@ public class CartItemBuilder {
         return this;
     }
 
+    public CartItemBuilder price(double price) {
+        this.price = price;
+        return this;
+    }
+
     public CartItem build() {
         CartItem cartItem = new CartItem();
         cartItem.setId(this.id);
+        cartItem.setCart(this.cart);
         cartItem.setProduct(this.product);
-        cartItem.setCustomer(this.customer);
+        cartItem.setUserId(this.userId); // Ensure this method exists in CartItem
         cartItem.setQuantity(this.quantity);
+        cartItem.setPrice(this.price);
         return cartItem;
     }
 }
