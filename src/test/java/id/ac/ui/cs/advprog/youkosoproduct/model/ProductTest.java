@@ -68,4 +68,6 @@ public class ProductTest {
         Product productWithIdOnly = new Product(2);
         assertEquals(2, productWithIdOnly.getId());
     }
+
+
 }
