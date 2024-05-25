@@ -4,14 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.ProductBuilder;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ProductTest {
     private final ProductBuilder productBuilder = new ProductBuilder();
-    private Product product = null;
+    private Product product;
 
     @BeforeEach
     void setUp() {
