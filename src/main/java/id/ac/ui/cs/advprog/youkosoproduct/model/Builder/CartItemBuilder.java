@@ -10,7 +10,7 @@ public class CartItemBuilder {
     private Product product;
     private String userId;
     private int quantity;
-    private double price;
+    private int price;
 
     public CartItemBuilder id(int id) {
         this.id = id;
@@ -37,7 +37,7 @@ public class CartItemBuilder {
         return this;
     }
 
-    public CartItemBuilder price(double price) {
+    public CartItemBuilder price(int price) {
         this.price = price;
         return this;
     }
