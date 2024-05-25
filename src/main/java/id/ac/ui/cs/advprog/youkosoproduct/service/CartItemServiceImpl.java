@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.youkosoproduct.service;
 
+import id.ac.ui.cs.advprog.youkosoproduct.exception.BadRequestException;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.*;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.CartItemBuilder;
@@ -32,7 +33,7 @@ public class CartItemServiceImpl implements ICartItemService {
     @Override
     @Transactional
     public CartItem addProductToCartItem(String userId, int productId, int quantity) {
-        CartItem cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId).orElseThrow(() -> new NotFoundException("Cart item not found"));
+        CartItem cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId).orElse(null);
         Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
 
         if (product.getProductStock() <= 0) {
@@ -55,7 +56,7 @@ public class CartItemServiceImpl implements ICartItemService {
             cartItemBuilder.product(product);
             cartItemBuilder.user(userId);
             cartItemBuilder.quantity(quantity);
-            cartItemBuilder.price((double) product.finalPrice() * quantity);
+            cartItemBuilder.price(product.finalPrice() * quantity);
             cartItem = cartItemBuilder.build();
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
@@ -89,7 +90,7 @@ public class CartItemServiceImpl implements ICartItemService {
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
 
         if (cartItems.isEmpty()) {
-            throw new IllegalArgumentException("Cart is empty");
+            throw new BadRequestException("Cart is empty");
         }
 
         Order order = new Order();
@@ -100,11 +101,21 @@ public class CartItemServiceImpl implements ICartItemService {
 
         order.setStatus("PENDING");
 
-        order = orderRepository.save(order);
-
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
+
+            Product product = cartItem.getProduct();
+
+            if (product.getProductStock() < cartItem.getQuantity()) {
+                throw new BadRequestException("Product out of stock");
+            }
+
+            product.setProductStock(product.getProductStock() - cartItem.getQuantity());
+            productRepository.save(product);
+
+            //TODO: send notification
+
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
             orderItem.setProduct(cartItem.getProduct());
@@ -113,10 +124,14 @@ public class CartItemServiceImpl implements ICartItemService {
             orderItems.add(orderItem);
         }
 
-        orderItemRepository.saveAll(orderItems);
 
+        order.setOrderItems(orderItems);
+        order = orderRepository.save(order);
+
+        orderItemRepository.saveAll(orderItems);
         cartItemRepository.deleteByUserId(userId);
         cartItemRepository.deleteAll(cartItems);
+
         return order;
     }
 }
