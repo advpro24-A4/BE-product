@@ -32,7 +32,6 @@ public class Product {
     @Column(name = "product_image", nullable = false)
     private String productImage;
 
-
     public int finalPrice(){
         return this.productPrice - (this.productPrice * this.productDiscount / 100);
     }

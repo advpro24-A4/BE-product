@@ -13,6 +13,6 @@ public class Profile {
     private String name;
     private String username;
     private String address;
-    private String birthDate;
-    private String phoneNumber;
+    private String birth_date;
+    private String phone_number;
 }

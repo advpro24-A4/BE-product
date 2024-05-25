@@ -37,6 +37,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate6")
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.5")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.12.5")
