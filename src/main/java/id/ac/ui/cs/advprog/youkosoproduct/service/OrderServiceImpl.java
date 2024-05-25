@@ -1,8 +1,10 @@
 package id.ac.ui.cs.advprog.youkosoproduct.service;
 
+import id.ac.ui.cs.advprog.youkosoproduct.dto.NotificationDTO;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.BadRequestException;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Order;
+import id.ac.ui.cs.advprog.youkosoproduct.model.enumaration.NotificationType;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.IOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements IOrderService{
     private final IOrderRepository orderRepository;
+    private final KafkaService kafkaService;
 
     @Autowired
-    public OrderServiceImpl(IOrderRepository orderRepository) {
+    public OrderServiceImpl(IOrderRepository orderRepository, KafkaService kafkaService) {
 
+        this.kafkaService = kafkaService;
         this.orderRepository = orderRepository;
     }
 
@@ -41,6 +45,14 @@ public class OrderServiceImpl implements IOrderService{
         }
         order.setStatus("CANCELLED");
         orderRepository.save(order);
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setOrderId(String.valueOf(order.getId()));
+        notificationDTO.setUserId(order.getUserId());
+        notificationDTO.setType(NotificationType.ORDER);
+        notificationDTO.setMessage("Order with ID " + order.getId() + " has been cancelled");
+        kafkaService.sendNotification(notificationDTO);
+
         return order;
     }
 
@@ -64,6 +76,12 @@ public class OrderServiceImpl implements IOrderService{
         }
 
         order.setStatus("FINISHED");
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setOrderId(String.valueOf(order.getId()));
+        notificationDTO.setUserId(order.getUserId());
+        notificationDTO.setType(NotificationType.ORDER);
+        notificationDTO.setMessage("Order with ID " + order.getId() + " has been finished");
+        kafkaService.sendNotification(notificationDTO);
         orderRepository.save(order);
         return order;
     }

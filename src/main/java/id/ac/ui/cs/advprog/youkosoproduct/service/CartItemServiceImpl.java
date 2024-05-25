@@ -38,14 +38,14 @@ public class CartItemServiceImpl implements ICartItemService {
     @Transactional
     public CartItem addProductToCartItem(String userId, int productId, int quantity) {
         CartItem cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId).orElse(null);
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new BadRequestException("Invalid product ID"));
 
         if (product.getProductStock() <= 0) {
-            throw new IllegalArgumentException("Product out of stock");
+            throw new BadRequestException("Product out of stock");
         }
 
         if (quantity > product.getProductStock()) {
-            throw new IllegalArgumentException("Quantity exceeds stock");
+            throw new BadRequestException("Quantity exceeds stock");
         }
 
         Cart cart = cartRepository.findByUserId(userId).orElseGet(() -> {
@@ -116,12 +116,13 @@ public class CartItemServiceImpl implements ICartItemService {
             }
 
             product.setProductStock(product.getProductStock() - cartItem.getQuantity());
-            productRepository.save(product);
+            product = productRepository.save(product);
 
 
             if(product.getProductStock() <= 10){
                 NotificationDTO notificationDTO = new NotificationDTO();
                 notificationDTO.setMessage("Product " + product.getProductName() + " is running out of stock");
+                System.out.println("Product " + product.getProductName() + " is running out of stock");
                 notificationDTO.setProductId(String.valueOf(product.getId()));
                 notificationDTO.setType(NotificationType.PRODUCT);
                 notificationDTO.setUserId(userId);
@@ -140,10 +141,17 @@ public class CartItemServiceImpl implements ICartItemService {
         order.setOrderItems(orderItems);
         order = orderRepository.save(order);
 
+
         orderItemRepository.saveAll(orderItems);
         cartItemRepository.deleteByUserId(userId);
         cartItemRepository.deleteAll(cartItems);
 
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setMessage("New order " + order.getId() + " has been created");
+        notificationDTO.setOrderId(String.valueOf(order.getId()));
+        notificationDTO.setType(NotificationType.ORDER);
+        notificationDTO.setUserId(userId);
+        kafkaService.sendNotification(notificationDTO);
         return order;
     }
 }

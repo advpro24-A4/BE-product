@@ -28,6 +28,7 @@ public class KafkaConfig {
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         configProps.put("security.protocol", "SASL_SSL");
         configProps.put("sasl.mechanism", "SCRAM-SHA-256");
         configProps.put("sasl.jaas.config", saslJaasConfig);

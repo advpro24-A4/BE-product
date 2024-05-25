@@ -16,6 +16,7 @@ public class KafkaService {
 
     public void sendNotification(NotificationDTO notificationDTO) {
         String TOPIC = "notification";
-        kafkaTemplate.send(TOPIC, notificationDTO);
+        String key = notificationDTO.getUserId();
+        kafkaTemplate.send(TOPIC,key, notificationDTO);
     }
 }
