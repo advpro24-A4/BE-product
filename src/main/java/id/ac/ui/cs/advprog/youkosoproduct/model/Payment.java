@@ -41,5 +41,7 @@ public class Payment {
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
-    public Payment() {}
+    public Payment() {
+        // Default constructor required by JPA/Hibernate
+    }
 }

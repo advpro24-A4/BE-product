@@ -45,7 +45,7 @@ public class AuthService {
                         entity,
                         String.class
                 );
-                System.out.println(response.getStatusCode());
+
                 if (response.getStatusCode() != HttpStatus.OK) {
                     throw new UnauthorizedException("Invalid token");
                 }

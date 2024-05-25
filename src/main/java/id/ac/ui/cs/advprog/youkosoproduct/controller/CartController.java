@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.youkosoproduct.controller;
 
 
 import id.ac.ui.cs.advprog.youkosoproduct.dto.*;
-import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.DefaultResponseBuilder;
+import id.ac.ui.cs.advprog.youkosoproduct.model.builder.DefaultResponseBuilder;
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Order;
 import id.ac.ui.cs.advprog.youkosoproduct.service.AuthService;
@@ -40,7 +40,7 @@ public class CartController {
         List<CartItem> cartItems = cartItemService.findByUserId(authResponse.getUser().getId());
         DefaultResponse<List<CartItem>> response = new DefaultResponseBuilder<List<CartItem>>()
                 .statusCode(HttpStatus.OK.value())
-                .message("Success")
+                .message("Get Cart Success")
                 .success(true)
                 .data(cartItems)
                 .build();
@@ -57,11 +57,11 @@ public class CartController {
         if (authResponse == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        System.out.println(addCartRequest.getProduct_id());
+
         CartItem cartItem = cartItemService.addProductToCartItem(authResponse.getUser().getId(), addCartRequest.getProduct_id(), addCartRequest.getQuantity());
         DefaultResponse<CartItem> response = new DefaultResponseBuilder<CartItem>()
                 .statusCode(HttpStatus.OK.value())
-                .message("Success")
+                .message("Add Product Success")
                 .success(true)
                 .data(cartItem)
                 .build();
@@ -77,10 +77,10 @@ public class CartController {
         if (authResponse == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        CartItem cartItem = cartItemService.removeProductFromCartItem(authResponse.getUser().getId(), removeCartRequest.getProduct_id());
+        CartItem cartItem = cartItemService.removeProductFromCartItem(authResponse.getUser().getId(), removeCartRequest.getProductId());
         DefaultResponse<CartItem> response = new DefaultResponseBuilder<CartItem>()
                 .statusCode(HttpStatus.OK.value())
-                .message("Success")
+                .message("Remove Product Success")
                 .success(true)
                 .data(cartItem)
                 .build();
@@ -96,10 +96,10 @@ public class CartController {
         if (authResponse == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        Order order = cartItemService.checkout(authResponse.getUser().getId(), checkoutRequest.getRecipient_address(), checkoutRequest.getRecipient_name(), checkoutRequest.getRecipient_phone_number());
+        Order order = cartItemService.checkout(authResponse.getUser().getId(), checkoutRequest.getRecipientAddress(), checkoutRequest.getRecipientName(), checkoutRequest.getRecipientPhoneNumber());
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>()
                 .statusCode(HttpStatus.OK.value())
-                .message("Success")
+                .message("Checkout Success")
                 .success(true)
                 .data(order)
                 .build();
