@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.youkosoproduct.model.builder;
+package id.ac.ui.cs.advprog.youkosoproduct.model.Builder;
 
 import id.ac.ui.cs.advprog.youkosoproduct.model.Cart;
 import id.ac.ui.cs.advprog.youkosoproduct.model.CartItem;
