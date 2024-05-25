@@ -22,24 +22,24 @@ public class CartTest {
     }
 
     @Test
-    void testSetAndGetId() {
+    void testId() {
         assertEquals(1, cart.getId());
     }
 
     @Test
-    void testSetAndGetUserId() {
+    void testUserId() {
         assertEquals("orang", cart.getUserId());
     }
 
     @Test
-    void testSetAndGetCreatedAt() {
+    void testCreatedAt() {
         LocalDateTime now = LocalDateTime.now();
         cart.setCreatedAt(now);
         assertEquals(now, cart.getCreatedAt());
     }
 
     @Test
-    void testSetAndGetUpdatedAt() {
+    void testUpdatedAt() {
         LocalDateTime now = LocalDateTime.now();
         cart.setUpdatedAt(now);
         assertEquals(now, cart.getUpdatedAt());

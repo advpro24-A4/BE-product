@@ -26,27 +26,27 @@ public class OrderItemTest {
     }
 
     @Test
-    void testSetAndGetId() {
+    void testId() {
         assertEquals(1L, orderItem.getId());
     }
 
     @Test
-    void testSetAndGetOrder() {
+    void testOrder() {
         assertEquals(order, orderItem.getOrder());
     }
 
     @Test
-    void testSetAndGetProduct() {
+    void testProduct() {
         assertEquals(product, orderItem.getProduct());
     }
 
     @Test
-    void testSetAndGetQuantity() {
+    void testQuantity() {
         assertEquals(10, orderItem.getQuantity());
     }
 
     @Test
-    void testSetAndGetPrice() {
+    void testPrice() {
         assertEquals(100.0, orderItem.getPrice());
     }
 
