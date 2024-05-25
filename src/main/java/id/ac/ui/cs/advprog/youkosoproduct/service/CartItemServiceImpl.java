@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.youkosoproduct.service;
 
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.*;
-import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.CartItemBuilder;
+import id.ac.ui.cs.advprog.youkosoproduct.model.builder.CartItemBuilder;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class CartItemServiceImpl implements ICartItemService {
             cartItemBuilder.product(product);
             cartItemBuilder.user(userId);
             cartItemBuilder.quantity(quantity);
-            cartItemBuilder.price(product.finalPrice() * quantity);
+            cartItemBuilder.price((double) product.finalPrice() * quantity);
             cartItem = cartItemBuilder.build();
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
@@ -86,7 +86,6 @@ public class CartItemServiceImpl implements ICartItemService {
     @Override
     @Transactional
     public Order checkout(String userId, String address, String recipientName, String recipientPhone) {
-        Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new NotFoundException("Cart not found"));
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
 
         if (cartItems.isEmpty()) {
