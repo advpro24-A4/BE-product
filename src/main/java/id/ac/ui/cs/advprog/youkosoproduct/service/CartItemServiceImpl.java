@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.youkosoproduct.service;
 
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.*;
-import id.ac.ui.cs.advprog.youkosoproduct.model.builder.CartItemBuilder;
+import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.CartItemBuilder;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
