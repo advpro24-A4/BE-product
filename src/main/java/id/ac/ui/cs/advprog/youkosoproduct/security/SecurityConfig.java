@@ -13,12 +13,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/actuator/**").permitAll() // Allow access to actuator endpoints
-                        .anyRequest().authenticated() // Ensure other requests are authenticated
-                );
+        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((requests) -> requests
+                .anyRequest().permitAll());
         return http.build();
     }
 }

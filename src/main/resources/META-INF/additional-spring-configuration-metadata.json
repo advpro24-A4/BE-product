@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "auth.url",
+      "type": "java.lang.String",
+      "description": "Description for auth.url."
+  }
+] }

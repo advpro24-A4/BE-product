@@ -1,10 +1,12 @@
 package id.ac.ui.cs.advprog.youkosoproduct.service;
 
+import id.ac.ui.cs.advprog.youkosoproduct.dto.NotificationDTO;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.BadRequestException;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Order;
 import id.ac.ui.cs.advprog.youkosoproduct.model.OrderItem;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Payment;
+import id.ac.ui.cs.advprog.youkosoproduct.model.enumaration.NotificationType;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.IOrderRepository;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.IPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ public class PaymentServiceImpl implements IPaymentService {
 
     private final IOrderRepository orderRepository;
     private final IPaymentRepository paymentRepository;
+    private final KafkaService kafkaService;
 
     @Autowired
-    public PaymentServiceImpl(IOrderRepository orderRepository, IPaymentRepository paymentRepository) {
+    public PaymentServiceImpl(IOrderRepository orderRepository, IPaymentRepository paymentRepository, KafkaService kafkaService) {
         this.orderRepository = orderRepository;
         this.paymentRepository = paymentRepository;
+        this.kafkaService = kafkaService;
     }
 
     @Override
@@ -80,7 +84,15 @@ public class PaymentServiceImpl implements IPaymentService {
         payment.setPaidAt(now);
         paymentRepository.save(payment);
         order.setStatus("WAITING_PAYMENT_CONFIRMATION");
-        orderRepository.save(order);
+        order = orderRepository.save(order);
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setOrderId(String.valueOf(order.getId()));
+        notificationDTO.setMessage("Payment for order " + order.getId() + "and " + payment.getId() +" has been paid");
+        notificationDTO.setUserId(order.getUserId());
+        notificationDTO.setType(NotificationType.PAYMENT);
+        notificationDTO.setPaymentId(String.valueOf(payment.getId()));
+        kafkaService.sendNotification(notificationDTO);
         return payment;
     }
 }
