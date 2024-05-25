@@ -3,7 +3,6 @@ package id.ac.ui.cs.advprog.youkosoproduct.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.youkosoproduct.dto.AuthResponse;
-import id.ac.ui.cs.advprog.youkosoproduct.exception.InternalServerErrorException;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +44,6 @@ public class AuthService {
                         entity,
                         String.class
                 );
-
                 if (response.getStatusCode() != HttpStatus.OK) {
                     throw new UnauthorizedException("Invalid token");
                 }
