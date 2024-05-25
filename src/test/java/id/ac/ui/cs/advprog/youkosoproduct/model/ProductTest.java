@@ -57,4 +57,17 @@ public class ProductTest {
     void testProductImage() {
         assertEquals("image_url", product.getProductImage());
     }
+
+    @Test
+    void testFinalPrice() {
+        assertEquals(95, product.finalPrice());
+    }
+
+    @Test
+    void testProductConstructor() {
+        Product productWithIdOnly = new Product(2);
+        assertEquals(2, productWithIdOnly.getId());
+    }
+
+
 }
