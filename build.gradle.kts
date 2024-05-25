@@ -7,6 +7,14 @@ plugins {
 	jacoco
 }
 
+sonar {
+	properties {
+		property("sonar.projectKey", "advpro24-A4_youkoso-product")
+		property("sonar.organization", "advpro24-a4")
+		property("sonar.host.url", "https://sonarcloud.io")
+	}
+}
+
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
 
