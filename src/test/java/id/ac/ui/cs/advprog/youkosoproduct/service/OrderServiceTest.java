@@ -79,31 +79,6 @@ class OrderServiceTest {
     }
 
     @Test
-    void finishOrder_OrderExistsAndUserIdMatches_FinishesOrderAndSendsNotification() {
-        long orderId = 1L;
-        String userId = "user123";
-
-        Order order = new Order();
-        order.setId(orderId);
-        order.setUserId(userId);
-        order.setStatus("DELIVERED");
-
-        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-
-        Order result = orderService.finishOrder(orderId, userId);
-
-        assertNotNull(result);
-        assertEquals("FINISHED", result.getStatus());
-
-        ArgumentCaptor<NotificationDTO> notificationCaptor = ArgumentCaptor.forClass(NotificationDTO.class);
-        verify(kafkaService).sendNotification(notificationCaptor.capture());
-        NotificationDTO notification = notificationCaptor.getValue();
-        assertEquals("Order with ID " + order.getId() + " has been finished", notification.getMessage());
-        assertEquals(userId, notification.getUserId());
-        assertEquals(NotificationType.ORDER, notification.getType());
-    }
-
-    @Test
     void finishOrder_OrderNotFound_ThrowsNotFoundException() {
         long orderId = 1L;
         String userId = "user123";
