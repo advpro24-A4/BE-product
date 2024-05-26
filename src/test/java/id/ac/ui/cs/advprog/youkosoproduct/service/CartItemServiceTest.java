@@ -308,7 +308,7 @@ class CartItemServiceTest {
         List<NotificationDTO> notificationsSent = notificationCaptor.getAllValues();
         assertEquals(2, notificationsSent.size());
 
-        NotificationDTO stockNotification = notificationsSent.get(0);
+        NotificationDTO stockNotification = notificationsSent.getFirst();
         assertEquals("Product " + product1.getProductName() + " is running out of stock", stockNotification.getMessage());
         assertEquals(String.valueOf(product1.getId()), stockNotification.getProductId());
         assertEquals(NotificationType.PRODUCT, stockNotification.getType());
