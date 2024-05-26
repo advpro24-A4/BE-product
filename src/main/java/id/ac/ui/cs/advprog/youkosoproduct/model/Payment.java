@@ -47,5 +47,7 @@ public class Payment {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime paidAt;
 
-    public Payment() {}
+    public Payment() {
+        // This constructor should remain empty to avoid unintended side effects during entity instantiation.
+    }
 }

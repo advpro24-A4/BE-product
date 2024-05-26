@@ -6,8 +6,6 @@ import id.ac.ui.cs.advprog.youkosoproduct.exception.NotFoundException;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Order;
 import id.ac.ui.cs.advprog.youkosoproduct.model.enumaration.NotificationType;
 import id.ac.ui.cs.advprog.youkosoproduct.repository.IOrderRepository;
-import id.ac.ui.cs.advprog.youkosoproduct.service.KafkaService;
-import id.ac.ui.cs.advprog.youkosoproduct.service.OrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

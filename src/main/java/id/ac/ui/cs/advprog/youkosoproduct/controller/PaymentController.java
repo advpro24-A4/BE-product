@@ -42,7 +42,7 @@ public class PaymentController {
         }
 
         Order order = paymentService.payment(paymentRequest.getOrder_id(), paymentRequest.getPayment_method(), authResponse.getUser().getId());
-        DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value()).message("Success").success(true).data(order).build();
+        DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value()).message("Success create payment").success(true).data(order).build();
         return ResponseEntity.ok(response);
     }
 
@@ -57,7 +57,7 @@ public class PaymentController {
         }
 
         Payment payment = paymentService.cancelPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
-        DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success").success(true).data(payment).build();
+        DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success cancel payment").success(true).data(payment).build();
         return ResponseEntity.ok(response);
     }
 
@@ -73,7 +73,7 @@ public class PaymentController {
         }
 
         Payment payment = paymentService.verifyPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
-        DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success").success(true).data(payment).build();
+        DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success confirm payment").success(true).data(payment).build();
         return ResponseEntity.ok(response);
     }
 }
