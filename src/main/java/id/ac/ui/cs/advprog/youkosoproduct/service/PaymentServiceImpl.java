@@ -57,6 +57,29 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
+    public void editPayment(Long orderId, String userId, int newTotalPrice) {
+        Payment payment = paymentRepository.findByOrderId(orderId).orElseThrow(() -> new NotFoundException("Payment not found"));
+
+        if (!payment.getUserId().equals(userId)) {
+            throw new NotFoundException("Payment not found");
+        }
+
+        payment.setTotalPrice(newTotalPrice);
+        paymentRepository.save(payment);
+    }
+
+    @Override
+    public Payment getPayment(Long orderId, String userId) {
+        Payment payment = paymentRepository.findByOrderId(orderId).orElseThrow(() -> new NotFoundException("Payment not found"));
+
+        if (!payment.getUserId().equals(userId)) {
+            throw new NotFoundException("Payment not found");
+        }
+
+        return payment;
+    }
+
+    @Override
     public Payment cancelPayment(Long orderId, String userId) {
         Payment payment = paymentRepository.findByOrderId(orderId).orElseThrow(() -> new NotFoundException("Payment not found"));
 

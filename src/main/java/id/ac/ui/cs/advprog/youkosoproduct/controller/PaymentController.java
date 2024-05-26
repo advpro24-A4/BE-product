@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.youkosoproduct.controller;
 
 import id.ac.ui.cs.advprog.youkosoproduct.dto.AuthResponse;
 import id.ac.ui.cs.advprog.youkosoproduct.dto.DefaultResponse;
+import id.ac.ui.cs.advprog.youkosoproduct.dto.EditPaymentRequest;
 import id.ac.ui.cs.advprog.youkosoproduct.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.youkosoproduct.dto.VerifyDeletePaymentRequest;
 import id.ac.ui.cs.advprog.youkosoproduct.exception.BadRequestException;
@@ -58,6 +59,37 @@ public class PaymentController {
 
         Payment payment = paymentService.cancelPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
         DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success cancel payment").success(true).data(payment).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/edit-price/{orderId}")
+    public ResponseEntity<DefaultResponse<String>> cancelPayment(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable("orderId") Long orderId,
+            @RequestBody EditPaymentRequest editPaymentRequest
+    ) {
+        AuthResponse authResponse = authService.validateToken(authHeader).join();
+        if (authResponse == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        paymentService.editPayment(orderId, authResponse.getUser().getId(), editPaymentRequest.getNew_price());
+        DefaultResponse<String> response = new DefaultResponseBuilder<String>().statusCode(HttpStatus.OK.value()).message("Success edit payment").success(true).data(null).build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/get-payment/{orderId}")
+    public ResponseEntity<DefaultResponse<Payment>> cancelPayment(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable("orderId") Long orderId
+    ) {
+        AuthResponse authResponse = authService.validateToken(authHeader).join();
+        if (authResponse == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Payment payment = paymentService.getPayment(orderId, authResponse.getUser().getId());
+        DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success get payment").success(true).data(payment).build();
         return ResponseEntity.ok(response);
     }
 
