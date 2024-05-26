@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UserTest {
+class UserTest {
     private User user;
 
     @BeforeEach
@@ -127,8 +127,8 @@ public class UserTest {
 
     @Test
     void testAllArgsConstructor() {
-        User user = new User("1", "sukatri@gmail.com", "customer", new Profile("sukatri", "sukapohon", "jl.pohon", "1990-01-02", "1234567891"));
-        assertNotNull(user);
+        User existingUser = new User("1", "sukatri@gmail.com", "customer", new Profile("sukatri", "sukapohon", "jl.pohon", "1990-01-02", "1234567891"));
+        assertNotNull(existingUser);
     }
 
     @AfterEach

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import id.ac.ui.cs.advprog.youkosoproduct.model.Builder.ProductBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ProductTest {
+class ProductTest {
     private final ProductBuilder productBuilder = new ProductBuilder();
     private Product product;
 
