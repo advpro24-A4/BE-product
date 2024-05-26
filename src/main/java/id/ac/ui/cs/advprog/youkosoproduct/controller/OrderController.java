@@ -39,7 +39,7 @@ public class OrderController {
 
         List<Order> orders = orderService.getOrders(authResponse.getUser().getId());
         DefaultResponse<List<Order>> response = new DefaultResponseBuilder<List<Order>>().statusCode(HttpStatus.OK.value())
-                .message("Success").success(true).data(orders).statusCode(HttpStatus.OK.value()).message("Success get orders").success(true).data(orders).build();
+                .message("Success get orders").success(true).data(orders).statusCode(HttpStatus.OK.value()).message("Success get orders").success(true).data(orders).build();
         return ResponseEntity.ok(response);
     }
 
@@ -55,7 +55,7 @@ public class OrderController {
         }
         Order order = orderService.cancelOrder(deleteRequest.getOrder_id(), authResponse.getUser().getId());
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value())
-                .message("Success").success(true).data(order).build();
+                .message("Success cancel order").success(true).data(order).build();
         return ResponseEntity.ok(response);
     }
 
@@ -72,7 +72,7 @@ public class OrderController {
         Order order = orderService.finishOrder(finishRequest.getOrder_id(), authResponse.getUser().getId());
 
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value())
-                .message("Success").success(true).data(order).build();
+                .message("Success create order").success(true).data(order).build();
 
         return ResponseEntity.ok(response);
     }

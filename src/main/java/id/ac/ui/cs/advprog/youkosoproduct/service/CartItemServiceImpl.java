@@ -122,7 +122,6 @@ public class CartItemServiceImpl implements ICartItemService {
             if(product.getProductStock() <= 10){
                 NotificationDTO notificationDTO = new NotificationDTO();
                 notificationDTO.setMessage("Product " + product.getProductName() + " is running out of stock");
-                System.out.println("Product " + product.getProductName() + " is running out of stock");
                 notificationDTO.setProductId(String.valueOf(product.getId()));
                 notificationDTO.setType(NotificationType.PRODUCT);
                 notificationDTO.setUserId(userId);
