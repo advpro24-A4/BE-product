@@ -194,6 +194,7 @@ class CartItemServiceTest {
         cartItem.setQuantity(initialQuantity);
         cartItem.setPrice(initialPrice);
         Product product = new Product();
+        product.setProductDiscount(5);
         cartItem.setProduct(product);
 
         when(cartItemRepository.findByUserIdAndProductId(userId, productId)).thenReturn(Optional.of(cartItem));
