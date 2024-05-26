@@ -260,9 +260,7 @@ class CartItemServiceTest {
         String address = "Address";
         String recipientName = "Recipient";
         String recipientPhone = "Phone";
-
         List<CartItem> cartItems = new ArrayList<>();
-
         Product product1 = new Product(1);
         product1.setProductName("Product 1");
         product1.setProductStock(10);
@@ -272,22 +270,17 @@ class CartItemServiceTest {
         cartItem1.setPrice(200);
         cartItems.add(cartItem1);
 
-        ICartItemRepository cartItemRepository = mock(ICartItemRepository.class);
-        when(cartItemRepository.findByUserId(userId)).thenReturn(cartItems);
+        ICartItemRepository existingCartItemRepository = mock(ICartItemRepository.class);
+        when(existingCartItemRepository.findByUserId(userId)).thenReturn(cartItems);
+        IProductRepository existingProductRepository = mock(IProductRepository.class);
+        when(existingProductRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        IOrderRepository existingOrderRepository = mock(IOrderRepository.class);
+        when(existingOrderRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        IOrderItemRepository existingOrderItemRepository = mock(IOrderItemRepository.class);
+        KafkaService existingKafkaService = mock(KafkaService.class);
 
-        IProductRepository productRepository = mock(IProductRepository.class);
-        when(productRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-
-        IOrderRepository orderRepository = mock(IOrderRepository.class);
-        when(orderRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-
-        IOrderItemRepository orderItemRepository = mock(IOrderItemRepository.class);
-
-        KafkaService kafkaService = mock(KafkaService.class);
-
-        CartItemServiceImpl cartItemService = new CartItemServiceImpl(cartItemRepository, cartRepository, productRepository, orderRepository, orderItemRepository, kafkaService);
-
-        Order order = cartItemService.checkout(userId, address, recipientName, recipientPhone);
+        CartItemServiceImpl existingCartItemService = new CartItemServiceImpl(existingCartItemRepository, cartRepository, existingProductRepository, existingOrderRepository, existingOrderItemRepository, existingKafkaService);
+        Order order = existingCartItemService.checkout(userId, address, recipientName, recipientPhone);
 
         assertNotNull(order);
         assertEquals(userId, order.getUserId());
@@ -295,32 +288,27 @@ class CartItemServiceTest {
         assertEquals(recipientName, order.getNamaPenerima());
         assertEquals(recipientPhone, order.getNoHpPenerima());
         assertEquals("PENDING", order.getStatus());
-
         List<OrderItem> orderItems = order.getOrderItems();
         assertNotNull(orderItems);
         assertEquals(cartItems.size(), orderItems.size());
-
         for (int i = 0; i < cartItems.size(); i++) {
             CartItem cartItem = cartItems.get(i);
             OrderItem orderItem = orderItems.get(i);
-
             assertEquals(order, orderItem.getOrder());
             assertEquals(cartItem.getProduct(), orderItem.getProduct());
             assertEquals(cartItem.getQuantity(), orderItem.getQuantity());
             assertEquals(cartItem.getPrice(), orderItem.getPrice());
         }
-
         for (CartItem cartItem : cartItems) {
             Product product = cartItem.getProduct();
             assertEquals(8, product.getProductStock());
         }
-
         ArgumentCaptor<NotificationDTO> notificationCaptor = ArgumentCaptor.forClass(NotificationDTO.class);
-        verify(kafkaService, times(2)).sendNotification(notificationCaptor.capture());
+        verify(existingKafkaService, times(2)).sendNotification(notificationCaptor.capture());
         List<NotificationDTO> notificationsSent = notificationCaptor.getAllValues();
         assertEquals(2, notificationsSent.size());
 
-        NotificationDTO stockNotification = notificationsSent.getFirst();
+        NotificationDTO stockNotification = notificationsSent.get(0);
         assertEquals("Product " + product1.getProductName() + " is running out of stock", stockNotification.getMessage());
         assertEquals(String.valueOf(product1.getId()), stockNotification.getProductId());
         assertEquals(NotificationType.PRODUCT, stockNotification.getType());
