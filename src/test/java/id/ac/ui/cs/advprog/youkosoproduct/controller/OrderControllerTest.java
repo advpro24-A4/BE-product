@@ -35,7 +35,7 @@ class OrderControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         orderController = new OrderController(orderService, authService);
     }
 
@@ -79,7 +79,7 @@ class OrderControllerTest {
         when(orderService.cancelOrder(orderId, userId)).thenReturn(new Order());
 
         DeleteRequest deleteRequest = new DeleteRequest();
-        deleteRequest.setOrder_id(orderId);
+        deleteRequest.setOrderId(orderId);
 
         // Act
         ResponseEntity<DefaultResponse<Order>> responseEntity = orderController.cancelOrder(authHeader, deleteRequest);
@@ -108,7 +108,7 @@ class OrderControllerTest {
         when(orderService.finishOrder(orderId, userId)).thenReturn(new Order());
 
         FinishRequest finishRequest = new FinishRequest();
-        finishRequest.setOrder_id(orderId);
+        finishRequest.setOrderId(orderId);
 
         // Act
         ResponseEntity<DefaultResponse<Order>> responseEntity = orderController.createOrder(authHeader, finishRequest);
@@ -147,7 +147,7 @@ class OrderControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         DeleteRequest deleteRequest = new DeleteRequest();
-        deleteRequest.setOrder_id(123L);
+        deleteRequest.setOrderId(123L);
 
         // Simulate null authResponse
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(null));
@@ -168,7 +168,7 @@ class OrderControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         FinishRequest finishRequest = new FinishRequest();
-        finishRequest.setOrder_id(123L);
+        finishRequest.setOrderId(123L);
 
         // Simulate null authResponse
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(null));

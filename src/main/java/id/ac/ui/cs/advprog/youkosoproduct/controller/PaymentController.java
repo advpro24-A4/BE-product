@@ -37,11 +37,11 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        if (paymentRequest.getOrder_id() == null || paymentRequest.getPayment_method() == null) {
+        if (paymentRequest.getOrderId() == null || paymentRequest.getPaymentMethod() == null) {
             throw new BadRequestException("Invalid request");
         }
 
-        Order order = paymentService.payment(paymentRequest.getOrder_id(), paymentRequest.getPayment_method(), authResponse.getUser().getId());
+        Order order = paymentService.payment(paymentRequest.getOrderId(), paymentRequest.getPaymentMethod(), authResponse.getUser().getId());
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value()).message("Success create payment").success(true).data(order).build();
         return ResponseEntity.ok(response);
     }
@@ -56,7 +56,7 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Payment payment = paymentService.cancelPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
+        Payment payment = paymentService.cancelPayment(verifyDeletePaymentRequest.getOrderId(), authResponse.getUser().getId());
         DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success cancel payment").success(true).data(payment).build();
         return ResponseEntity.ok(response);
     }
@@ -72,7 +72,7 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Payment payment = paymentService.verifyPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
+        Payment payment = paymentService.verifyPayment(verifyDeletePaymentRequest.getOrderId(), authResponse.getUser().getId());
         DefaultResponse<Payment> response = new DefaultResponseBuilder<Payment>().statusCode(HttpStatus.OK.value()).message("Success confirm payment").success(true).data(payment).build();
         return ResponseEntity.ok(response);
     }

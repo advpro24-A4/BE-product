@@ -6,12 +6,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CartItemTest {
+class CartItemTest {
     private final CartItemBuilder cartItemBuilder = new CartItemBuilder();
     private final ProductBuilder productBuilder = new ProductBuilder();
     private CartItem cartItem;

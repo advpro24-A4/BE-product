@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DefaultResponseBuilderTest {
+class DefaultResponseBuilderTest {
 
     private DefaultResponseBuilder<String> builder;
     private DefaultResponse<String> response;

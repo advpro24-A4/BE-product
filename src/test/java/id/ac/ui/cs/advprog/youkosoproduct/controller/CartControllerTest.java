@@ -32,7 +32,7 @@ class CartControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         cartController = new CartController(cartItemService, authService);
     }
 

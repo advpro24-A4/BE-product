@@ -61,9 +61,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.cancelOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.cancelOrder(orderId, userId));
     }
 
     @Test
@@ -77,9 +75,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.cancelOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.cancelOrder(orderId, userId));
     }
 
     @Test
@@ -114,9 +110,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.finishOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.finishOrder(orderId, userId));
     }
 
     @Test
@@ -130,9 +124,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.finishOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.finishOrder(orderId, userId));
     }
 
     @Test
@@ -147,9 +139,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(BadRequestException.class, () -> {
-            orderService.finishOrder(orderId, userId);
-        });
+        assertThrows(BadRequestException.class, () -> orderService.finishOrder(orderId, userId));
     }
 
     @Test
@@ -164,9 +154,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(BadRequestException.class, () -> {
-            orderService.finishOrder(orderId, userId);
-        });
+        assertThrows(BadRequestException.class, () -> orderService.finishOrder(orderId, userId));
     }
 
     @Test
@@ -181,9 +169,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(BadRequestException.class, () -> {
-            orderService.finishOrder(orderId, userId);
-        });
+        assertThrows(BadRequestException.class, () -> orderService.finishOrder(orderId, userId));
     }
 
     @Test
@@ -247,9 +233,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.getOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.getOrder(orderId, userId));
     }
 
     @Test
@@ -263,8 +247,6 @@ class OrderServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(NotFoundException.class, () -> {
-            orderService.getOrder(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> orderService.getOrder(orderId, userId));
     }
 }

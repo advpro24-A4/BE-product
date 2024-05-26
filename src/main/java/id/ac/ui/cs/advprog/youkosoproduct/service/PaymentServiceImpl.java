@@ -30,18 +30,16 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public Order payment(Long orderId, String paymentMethod, String userId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Order not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Order not found from payment"));
 
         if (!order.getUserId().equals(userId)) {
-            throw new NotFoundException("Order not found");
+            throw new NotFoundException("Order not found from payment order");
         }
 
         Payment currPayment = paymentRepository.findByOrderId(orderId).orElse(null);
 
-        if (currPayment != null) {
-            if (currPayment.getPaymentStatus().equals("PENDING")) {
-                throw new BadRequestException("Payment already exists");
-            }
+        if (currPayment != null && currPayment.getPaymentStatus().equals("PENDING")) {
+            throw new BadRequestException("Payment already exists");
         }
 
         Payment payment = new Payment();
@@ -58,10 +56,10 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public Payment cancelPayment(Long orderId, String userId) {
-        Payment payment = paymentRepository.findByOrderId(orderId).orElseThrow(() -> new NotFoundException("Payment not found"));
+        Payment payment = paymentRepository.findByOrderId(orderId).orElseThrow(() -> new NotFoundException("Payment not found from cancel"));
 
         if (!payment.getUserId().equals(userId)) {
-            throw new NotFoundException("Payment not found");
+            throw new NotFoundException("Payment not found from cancel payment");
         }
 
         payment.setPaymentStatus("CANCELLED");
@@ -71,10 +69,10 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Override
     public Payment verifyPayment(Long orderId, String userId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Order not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("Order not found from verify payment"));
 
         if (!order.getUserId().equals(userId)) {
-            throw new NotFoundException("Order not found");
+            throw new NotFoundException("Order not found from verify payment");
         }
 
 

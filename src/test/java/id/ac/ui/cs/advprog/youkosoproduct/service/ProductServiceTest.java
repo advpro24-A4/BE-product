@@ -23,8 +23,7 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize mocks
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         productService = new ProductService(productRepository);
     }
 
@@ -48,7 +47,7 @@ public class ProductServiceTest {
     @Test
     void getAllProducts_ReturnsEmptyList_WhenNoProductsFound() {
         // Arrange
-        when(productRepository.findAll()).thenReturn(Arrays.asList());
+        when(productRepository.findAll()).thenReturn(List.of());
 
         // Act
         List<Product> actualProducts = productService.getAllProducts();
@@ -72,7 +71,7 @@ public class ProductServiceTest {
     @Test
     void getAllProducts_CallsFindAllMethodOnce() {
         // Arrange
-        when(productRepository.findAll()).thenReturn(Arrays.asList());
+        when(productRepository.findAll()).thenReturn(List.of());
 
         // Act
         productService.getAllProducts();

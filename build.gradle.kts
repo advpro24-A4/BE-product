@@ -32,6 +32,10 @@ repositories {
 	mavenCentral()
 }
 
+
+val springBootVersion = "3.3.0"
+val micrometerVersion = "1.12.6"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -39,13 +43,13 @@ dependencies {
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate6")
 	implementation("org.flywaydb:flyway-core")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate6")
-	implementation("org.springframework.boot:spring-boot-starter-actuator:3.3.0")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
-	runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.12.6")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus:$micrometerVersion")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	compileOnly("org.projectlombok:lombok")

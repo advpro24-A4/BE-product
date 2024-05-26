@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentRequest {
-    private Long order_id;
-    private String payment_method;
+    private Long orderId;
+    private String paymentMethod;
 }

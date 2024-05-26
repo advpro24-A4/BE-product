@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FinishRequest {
-    private Long order_id;
+    private Long orderId;
 }

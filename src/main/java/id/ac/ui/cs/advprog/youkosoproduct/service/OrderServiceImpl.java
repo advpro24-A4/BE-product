@@ -30,18 +30,18 @@ public class OrderServiceImpl implements IOrderService{
 
     @Override
     public Order getOrder(long id, String userId) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found from get"));
         if (!order.getUserId().equals(userId)) {
-            throw new NotFoundException("Order not found");
+            throw new NotFoundException("Order not found from get order");
         }
         return order;
     }
 
     @Override
     public Order cancelOrder(long id, String userId) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found from cancel"));
         if (!order.getUserId().equals(userId)) {
-            throw new NotFoundException("Order not found");
+            throw new NotFoundException("Order not found from cancel order");
         }
         order.setStatus("CANCELLED");
         orderRepository.save(order);
@@ -58,9 +58,9 @@ public class OrderServiceImpl implements IOrderService{
 
     @Override
     public Order finishOrder(long id, String userId) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found from finish"));
         if (!order.getUserId().equals(userId)) {
-            throw new NotFoundException("Order not found");
+            throw new NotFoundException("Order not found from finish order");
         }
 
         if (order.getStatus().equals("FINISHED")) {
