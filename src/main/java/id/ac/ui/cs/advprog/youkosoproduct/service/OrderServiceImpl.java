@@ -71,8 +71,8 @@ public class OrderServiceImpl implements IOrderService{
             throw new BadRequestException("Order already cancelled");
         }
 
-        if(!order.getStatus().equals("DELIVERED")){
-            throw new BadRequestException("Order not delivered yet");
+        if(!order.getStatus().equals("ARRIVED")){
+            throw new BadRequestException("Order not arrived yet");
         }
 
         order.setStatus("FINISHED");
