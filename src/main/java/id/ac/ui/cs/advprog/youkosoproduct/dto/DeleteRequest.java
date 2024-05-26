@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DeleteRequest {
-    private Long order_id;
+    private Long orderId;
 }

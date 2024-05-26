@@ -68,9 +68,7 @@ public class PaymentServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.payment(orderId, paymentMethod, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.payment(orderId, paymentMethod, userId));
     }
 
     @Test
@@ -85,9 +83,7 @@ public class PaymentServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.payment(orderId, paymentMethod, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.payment(orderId, paymentMethod, userId));
     }
 
     @Test
@@ -106,9 +102,7 @@ public class PaymentServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(paymentRepository.findByOrderId(orderId)).thenReturn(Optional.of(existingPayment));
 
-        assertThrows(BadRequestException.class, () -> {
-            paymentService.payment(orderId, paymentMethod, userId);
-        });
+        assertThrows(BadRequestException.class, () -> paymentService.payment(orderId, paymentMethod, userId));
     }
 
     @Test
@@ -137,9 +131,7 @@ public class PaymentServiceTest {
 
         when(paymentRepository.findByOrderId(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.cancelPayment(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.cancelPayment(orderId, userId));
     }
 
     @Test
@@ -153,9 +145,7 @@ public class PaymentServiceTest {
 
         when(paymentRepository.findByOrderId(orderId)).thenReturn(Optional.of(payment));
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.cancelPayment(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.cancelPayment(orderId, userId));
     }
 
     @Test
@@ -199,9 +189,7 @@ public class PaymentServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.verifyPayment(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.verifyPayment(orderId, userId));
     }
 
     @Test
@@ -215,9 +203,7 @@ public class PaymentServiceTest {
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.verifyPayment(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.verifyPayment(orderId, userId));
     }
 
     @Test
@@ -232,9 +218,7 @@ public class PaymentServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(paymentRepository.findByOrderId(orderId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> {
-            paymentService.verifyPayment(orderId, userId);
-        });
+        assertThrows(NotFoundException.class, () -> paymentService.verifyPayment(orderId, userId));
     }
 
 

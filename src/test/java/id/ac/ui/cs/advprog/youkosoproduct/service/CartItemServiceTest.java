@@ -365,8 +365,6 @@ class CartItemServiceTest {
 
         CartItemServiceImpl cartItemService = new CartItemServiceImpl(cartItemRepository, cartRepository, productRepository, orderRepository, orderItemRepository, kafkaService);
 
-        assertThrows(BadRequestException.class, () -> {
-            cartItemService.checkout(userId, address, recipientName, recipientPhone);
-        });
+        assertThrows(BadRequestException.class, () -> cartItemService.checkout(userId, address, recipientName, recipientPhone));
     }
 }

@@ -14,10 +14,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-public class ProductControllerTest {
+class ProductControllerTest {
 
     @Mock
     private IProductService productService;
@@ -26,8 +25,7 @@ public class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize mocks
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         productController = new ProductController(productService);
     }
 

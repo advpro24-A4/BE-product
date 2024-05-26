@@ -53,7 +53,7 @@ public class OrderController {
         if (authResponse == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        Order order = orderService.cancelOrder(deleteRequest.getOrder_id(), authResponse.getUser().getId());
+        Order order = orderService.cancelOrder(deleteRequest.getOrderId(), authResponse.getUser().getId());
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value())
                 .message("Success cancel order").success(true).data(order).build();
         return ResponseEntity.ok(response);
@@ -69,7 +69,7 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Order order = orderService.finishOrder(finishRequest.getOrder_id(), authResponse.getUser().getId());
+        Order order = orderService.finishOrder(finishRequest.getOrderId(), authResponse.getUser().getId());
 
         DefaultResponse<Order> response = new DefaultResponseBuilder<Order>().statusCode(HttpStatus.OK.value())
                 .message("Success create order").success(true).data(order).build();

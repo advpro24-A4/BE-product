@@ -34,7 +34,7 @@ class PaymentControllerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         paymentController = new PaymentController(paymentService, authService);
     }
 
@@ -43,14 +43,14 @@ class PaymentControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         PaymentRequest paymentRequest = new PaymentRequest();
-        paymentRequest.setOrder_id(123L);
-        paymentRequest.setPayment_method("method");
+        paymentRequest.setOrderId(123L);
+        paymentRequest.setPaymentMethod("method");
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setUser(new User("user123", "test@example.com", "role", null));
 
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(authResponse));
-        when(paymentService.payment(paymentRequest.getOrder_id(), paymentRequest.getPayment_method(), authResponse.getUser().getId()))
+        when(paymentService.payment(paymentRequest.getOrderId(), paymentRequest.getPaymentMethod(), authResponse.getUser().getId()))
                 .thenReturn(new Order());
 
         // Act
@@ -63,7 +63,7 @@ class PaymentControllerTest {
 
         // Verify interactions
         verify(authService).validateToken(authHeader);
-        verify(paymentService).payment(paymentRequest.getOrder_id(), paymentRequest.getPayment_method(), authResponse.getUser().getId());
+        verify(paymentService).payment(paymentRequest.getOrderId(), paymentRequest.getPaymentMethod(), authResponse.getUser().getId());
     }
 
     @Test
@@ -96,9 +96,7 @@ class PaymentControllerTest {
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(authResponse));
 
         // Act & Assert
-        assertThrows(BadRequestException.class, () -> {
-            paymentController.createPayment(authHeader, paymentRequest);
-        });
+        assertThrows(BadRequestException.class, () -> paymentController.createPayment(authHeader, paymentRequest));
 
         // Verify interactions
         verify(authService).validateToken(authHeader);
@@ -110,13 +108,13 @@ class PaymentControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         VerifyDeletePaymentRequest verifyDeletePaymentRequest = new VerifyDeletePaymentRequest();
-        verifyDeletePaymentRequest.setOrder_id(123L);
+        verifyDeletePaymentRequest.setOrderId(123L);
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setUser(new User("user123", "test@example.com", "role", null));
 
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(authResponse));
-        when(paymentService.cancelPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId()))
+        when(paymentService.cancelPayment(verifyDeletePaymentRequest.getOrderId(), authResponse.getUser().getId()))
                 .thenReturn(new Payment());
 
         // Act
@@ -129,7 +127,7 @@ class PaymentControllerTest {
 
         // Verify interactions
         verify(authService).validateToken(authHeader);
-        verify(paymentService).cancelPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
+        verify(paymentService).cancelPayment(verifyDeletePaymentRequest.getOrderId(), authResponse.getUser().getId());
     }
 
     @Test
@@ -155,7 +153,7 @@ class PaymentControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         VerifyDeletePaymentRequest verifyDeletePaymentRequest = new VerifyDeletePaymentRequest();
-        verifyDeletePaymentRequest.setOrder_id(123L); // Assuming the order ID is of type long
+        verifyDeletePaymentRequest.setOrderId(123L); // Assuming the order ID is of type long
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setUser(new User("user123", "test@example.com", "role", null));
@@ -176,7 +174,7 @@ class PaymentControllerTest {
 
         // Verify interactions
         verify(authService).validateToken(authHeader);
-        verify(paymentService).verifyPayment(verifyDeletePaymentRequest.getOrder_id(), authResponse.getUser().getId());
+        verify(paymentService).verifyPayment(verifyDeletePaymentRequest.getOrderId(), authResponse.getUser().getId());
     }
 
 
@@ -185,7 +183,7 @@ class PaymentControllerTest {
         // Arrange
         String authHeader = "Bearer validToken";
         VerifyDeletePaymentRequest verifyDeletePaymentRequest = new VerifyDeletePaymentRequest();
-        verifyDeletePaymentRequest.setOrder_id(123L);
+        verifyDeletePaymentRequest.setOrderId(123L);
 
         // Simulate null authResponse
         when(authService.validateToken(authHeader)).thenReturn(CompletableFuture.completedFuture(null));
