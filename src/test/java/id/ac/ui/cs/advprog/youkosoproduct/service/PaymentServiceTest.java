@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PaymentServiceTest {
+class PaymentServiceTest {
     private IOrderRepository orderRepository;
     private IPaymentRepository paymentRepository;
     private PaymentServiceImpl paymentService;

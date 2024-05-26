@@ -73,26 +73,22 @@ class CartItemTest {
 
     @Test
     void testCartItemConstructor() {
-        Cart cart = new Cart();
-        Product product = new Product();
-
+        Cart existingCart = new Cart(); // Renaming the local variable to avoid hiding the field
+        Product existingProduct = new Product(); // Renaming the local variable to avoid hiding the field
         String userId = "halow";
         int quantity = 2;
         int price = 200;
-
-        CartItem cartItem = new CartItem(cart, product, userId, quantity, price);
-
-        assertNotNull(cartItem);
-
-        assertEquals(cart, cartItem.getCart());
-        assertEquals(product, cartItem.getProduct());
-        assertEquals(userId, cartItem.getUserId());
-        assertEquals(quantity, cartItem.getQuantity());
-        assertEquals(price, cartItem.getPrice());
-
-        assertNull(cartItem.getCreatedAt());
-        assertNull(cartItem.getUpdatedAt());
+        CartItem existingCartItem = new CartItem(existingCart, existingProduct, userId, quantity, price); // Renaming the local variable to avoid hiding the field
+        assertNotNull(existingCartItem);
+        assertEquals(existingCart, existingCartItem.getCart()); // Adjusted to use the renamed variable
+        assertEquals(existingProduct, existingCartItem.getProduct());
+        assertEquals(userId, existingCartItem.getUserId());
+        assertEquals(quantity, existingCartItem.getQuantity());
+        assertEquals(price, existingCartItem.getPrice());
+        assertNull(existingCartItem.getCreatedAt());
+        assertNull(existingCartItem.getUpdatedAt());
     }
+
 
     @Test
     void testSetCreatedAt() {

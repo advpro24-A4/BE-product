@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class OrderTest {
+class OrderTest {
     private Order order;
     private Shipment shipment;
     private Payment payment;

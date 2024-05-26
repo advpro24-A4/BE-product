@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class OrderItemTest {
+class OrderItemTest {
     private OrderItem orderItem;
     private Order order;
     private Product product;
