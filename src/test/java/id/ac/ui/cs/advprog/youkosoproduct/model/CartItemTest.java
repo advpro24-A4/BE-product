@@ -89,23 +89,20 @@ class CartItemTest {
         assertNull(existingCartItem.getUpdatedAt());
     }
 
-
     @Test
     void testSetCreatedAt() {
-        CartItem cartItem = new CartItem();
+        CartItem existingCartItem = new CartItem(); // Renamed the local variable to avoid hiding the field
         LocalDateTime currentTime = LocalDateTime.now();
-
-        cartItem.setCreatedAt(currentTime);
-        assertEquals(currentTime, cartItem.getCreatedAt());
+        existingCartItem.setCreatedAt(currentTime);
+        assertEquals(currentTime, existingCartItem.getCreatedAt());
     }
 
     @Test
     void testSetUpdatedAt() {
-        CartItem cartItem = new CartItem();
+        CartItem existingCartItem = new CartItem(); // Renamed the local variable to avoid hiding the field
         LocalDateTime currentTime = LocalDateTime.now();
-
-        cartItem.setUpdatedAt(currentTime);
-        assertEquals(currentTime, cartItem.getUpdatedAt());
+        existingCartItem.setUpdatedAt(currentTime);
+        assertEquals(currentTime, existingCartItem.getUpdatedAt());
     }
 
     @AfterEach
